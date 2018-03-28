@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webpack App</title>
+  </head>
+  <body>
+    <style>
+      body {
+        background-color: #c2c2c2;
+      }
+      .field {
+        --field-width: 400px;
+        --field-height: 400px;
+        position: relative;
+        width: var(--field-width);
+        height: var(--field-height);
+        margin: 40px auto;
+        background-color: #000;
+      }
+
+      .field__cell {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc( ( var(--field-width) / 4 ) - 1px );
+        height: calc( ( var(--field-height) / 4 ) - 1px );
+        background-color: #123456;
+        font-size: 40px;
+        color: #fcfcfc;
+      }
+    </style>
+    <div id="field" class="field"></div>
+  <script type="text/javascript" src="bundle.js"></script></body>
+</html>
