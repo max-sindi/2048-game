@@ -1,6 +1,8 @@
 import Cell from './Cell';
 import { HorizontalColumn, VerticalColumn } from './Column';
 
+const startCellsAmount = 10;
+
 class GameField {
   constructor(props) {
     this.dom = document.getElementById(props.id);
@@ -39,10 +41,9 @@ class GameField {
   }
 
   initNewGrid() {
-    for(let i = 0; i < 4; i++) {
+    for(let i = 0; i < startCellsAmount; i++) {
       const that = this;
       let cell = new Cell();
-      // cell.position;
 
       defineCellPosition(this);
 
@@ -97,38 +98,6 @@ class GameField {
           // debugger
           item.tryMoveCells('up');
         } );
-        // for(let i = 0; i < 4; i++) {
-        //   // debugger;
-        //   const column = that.grid.left[i];
-        //   column.tryMove();
-        //
-        //   // in current column try to move cells
-        //   for(let ii = 0; ii < 4; ii++) {
-        //     // debugger;
-        //     const currentCell = column[ii];
-        //
-        //     if( currentCell.isThisCell && canMove( column, ii ) ) {
-        //       column.move('up');
-        //       currentCell.position.top -= 1;
-        //       applyCellPosition(currentCell);
-        //       column[ii -1] = currentCell;
-        //       column[ii] = false;
-        //       ii = 0;
-        //     } else {
-        //       continue;
-        //     }
-        //   }
-        // }
-
-        // function canMove(column, index) {
-        //   // debugger
-        //   const cell = column[index];
-        //   if( index !== 0 && !column[index-1].isThisCell ) {
-        //     return true;
-        //   } else {
-        //     return false;
-        //   }
-        // }
       }
     }
   }
@@ -149,12 +118,11 @@ function getRandomPosition() {
     top: getRandomInt(0,4),
     left: getRandomInt(0,4),
   };
-  // `${ '' + getRandomInt(0,4) }:${ '' + getRandomInt(0,4) }`;
-  // debugger;
+
   return position;
 };
-// Возвращает случайное целое число между min (включительно) и max (не включая max)
-// Использование метода Math.round() даст вам неравномерное распределение!
+
+// not including max
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }

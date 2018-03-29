@@ -32,17 +32,19 @@ class VerticalColumn extends Column {
         if( index === 0 ) {
           return;
         }
-
+        // debugger;
         if( !columnSells[index-1].isThisCell ) {
-          cell.position.top -= 1;
-          cell.verticalColumn.cells[index] = false;
-          index -= 1;
-          cell.verticalColumn.cells[index] = cell;
+          // cell.position.top -= 1;
+          // cell.verticalColumn.cells[index] = false;
+          // index -= 1;
+          // cell.verticalColumn.cells[index] = cell;
+          changeCellPosition();
 
           tryMove();
         } else if( columnSells[index-1].isThisCell ) {
-          tryMergeCells();
-          tryMove();
+          if( tryMergeCells() ) {
+            changeCellPosition();
+          }
         }
 
         function tryMergeCells() {
@@ -60,7 +62,18 @@ class VerticalColumn extends Column {
 
             cell.value *= 2;
             cell.changePointNumber();
+            return true;
+          } else {
+            return false;
           }
+        }
+
+        function changeCellPosition() {
+          cell.position.top -= 1;
+          cell.verticalColumn.cells[index] = false;
+          index -= 1;
+          cell.verticalColumn.cells[index] = cell;
+
         }
       }
     });
