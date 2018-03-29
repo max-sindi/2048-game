@@ -22,3 +22,9 @@ function resetField(e) {
   field = new GameField({id: 'field'});
   field.activate();
 }
+
+document.body.addEventListener('keypress', (e) => {
+  if(e.key === 'q' || e.key === 'й') {
+    resetField();
+  }
+})

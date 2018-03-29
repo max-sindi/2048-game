@@ -1,7 +1,7 @@
 import Cell from './Cell';
 import { HorizontalColumn, VerticalColumn } from './Column';
 
-const startCellsAmount = 10;
+const startCellsAmount = 16;
 
 class GameField {
   constructor(props) {
@@ -88,16 +88,27 @@ class GameField {
       const field = this;
 
       if(e.key === 'ArrowUp') {
-        moveUp();
+        moveCells('up');
+      } else if(e.key === 'ArrowDown') {
+        moveCells('down');
+      } else if(e.key === 'ArrowLeft') {
+        moveCells('left');
+      } else if (e.key === 'ArrowRight') {
+        moveCells('right');
       }
 
-      function moveUp() {
-
+      function moveCells(direction) {
+        const dir = direction;
         // run throught each column
-        field.grid.left.forEach( (item, index) => {
-          // debugger
-          item.tryMoveCells('up');
-        } );
+        if(dir === 'up' || dir === 'down') {
+          field.grid.left.forEach( (item, index) => {
+            item.tryMoveCells(dir);
+          });
+        } else if(dir === 'left' || dir === 'right') {
+          field.grid.top.forEach( (item, index) => {
+            item.tryMoveCells(dir);
+          });
+        }
       }
     }
   }
