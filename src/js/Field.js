@@ -1,7 +1,7 @@
 import Cell from './Cell';
-import { HorizontalColumn, VerticalColumn } from './Column';
+import Column from './Column';
 
-const startCellsAmount = 16;
+const startCellsAmount = 4;
 
 class GameField {
   constructor(props) {
@@ -9,8 +9,8 @@ class GameField {
     this.dom.owner = this;
 
     const grid = this.grid = {
-      top: this.createColumns('horizontal'),
-      left: this.createColumns('vertical'),
+      top: this.createColumns(),
+      left: this.createColumns(),
     };
 
     // in future will be possibility to restore past state
@@ -25,15 +25,7 @@ class GameField {
     const columnsArray = [];
 
     for(let i = 0; i < 4; i++) {
-      let column;
-
-      // debugger;
-      if(columnsDirection === 'vertical') {
-        column = new VerticalColumn({ field: this });
-      } else if (columnsDirection === 'horizontal') {
-        column = new HorizontalColumn({ field: this });
-      }
-
+      let column = new Column({ field: this });
       columnsArray.push(column);
     }
 
@@ -42,42 +34,7 @@ class GameField {
 
   initNewGrid() {
     for(let i = 0; i < startCellsAmount; i++) {
-      const that = this;
-      let cell = new Cell();
-
-      defineCellPosition(this);
-
-      function defineCellPosition() {
-        cell.position = getRandomPosition();
-
-        if( isPositionFree(cell.position) ) {
-          const { top, left } = cell.position;
-          // debugger;
-          that.grid.top[top].cells[left] = cell;
-          that.grid.left[left].cells[top] = cell;
-          cell.horizontalColumn = that.grid.top[top];
-          cell.verticalColumn   = that.grid.left[left];
-          // debugger;
-
-          applyCellPosition(cell);
-
-          that.dom.appendChild(cell.dom);
-        } else {
-          defineCellPosition();
-        }
-
-        function isPositionFree(position) {
-          const { top, left } = position;
-          const grid = that.grid;
-
-          // debugger
-          if( grid.top[top].cells[left] && grid.top[top].cells[left].isThisCell) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-      }
+      this.addNewCell();
     }
   }
 
@@ -88,9 +45,9 @@ class GameField {
       const field = this;
 
       if(e.key === 'ArrowUp') {
-        moveCells('up');
+        moveCells('top');
       } else if(e.key === 'ArrowDown') {
-        moveCells('down');
+        moveCells('bottom');
       } else if(e.key === 'ArrowLeft') {
         moveCells('left');
       } else if (e.key === 'ArrowRight') {
@@ -99,8 +56,9 @@ class GameField {
 
       function moveCells(direction) {
         const dir = direction;
+
         // run throught each column
-        if(dir === 'up' || dir === 'down') {
+        if(dir === 'top' || dir === 'bottom') {
           field.grid.left.forEach( (item, index) => {
             item.tryMoveCells(dir);
           });
@@ -108,6 +66,44 @@ class GameField {
           field.grid.top.forEach( (item, index) => {
             item.tryMoveCells(dir);
           });
+        }
+
+        field.addNewCell();
+      }
+    }
+  }
+
+  addNewCell() {
+    const that = this;
+    let cell = new Cell();
+
+    defineCellPosition(this);
+
+    function defineCellPosition() {
+      cell.position = getRandomPosition();
+
+      if( isPositionFree(cell.position) ) {
+        const { top, left } = cell.position;
+        that.grid.top[top].cells[left] = cell;
+        that.grid.left[left].cells[top] = cell;
+        cell.horizontalColumn = that.grid.top[top];
+        cell.verticalColumn   = that.grid.left[left];
+
+        applyCellPosition(cell);
+
+        that.dom.appendChild(cell.dom);
+      } else {
+        defineCellPosition();
+      }
+
+      function isPositionFree(position) {
+        const { top, left } = position;
+        const grid = that.grid;
+
+        if( grid.top[top].cells[left] && grid.top[top].cells[left].isThisCell) {
+          return false;
+        } else {
+          return true;
         }
       }
     }
@@ -121,6 +117,7 @@ function applyCellPosition(cell) {
     top: cell.position.top * 100 + 'px',
     left: cell.position.left * 100 + 'px',
   }
+
   applyStyles(cell.dom, cellCssPosition);
 }
 
@@ -139,7 +136,6 @@ function getRandomInt(min, max) {
 }
 
 function applyStyles(element, stylesObject) {
-  // debugger
   for(let key in stylesObject) {
     element.style[key] = stylesObject[key];
   }

@@ -26,5 +26,18 @@ function resetField(e) {
 document.body.addEventListener('keypress', (e) => {
   if(e.key === 'q' || e.key === 'й') {
     resetField();
+  } else if(e.key === 'f' || e.key === 'а') {
+    field.addNewCell();
   }
 })
+
+const addCellButton = document.createElement('button');
+addCellButton.innerText = 'Add cell';
+addCellButton.classList.add(styles.addCellButton);
+document.body.appendChild(addCellButton);
+
+addCellButton.addEventListener('click', addCell);
+
+function addCell(e) {
+  field.addNewCell();
+}

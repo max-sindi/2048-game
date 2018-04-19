@@ -20,6 +20,7 @@
       }
 
       .field__cell {
+        --speed: .3s;
         position: absolute;
         display: flex;
         align-items: center;
@@ -29,8 +30,41 @@
         background-color: #123456;
         font-size: 40px;
         color: #fcfcfc;
-        transition: top .2s, bottom 0.2s;
+        transition: top var(--speed), left var(--speed);
       }
+
+      .field__cell-2 {
+        background-color: #a10532;
+      }
+
+      .field__cell-4 {
+        background-color: #ff6fa9;
+      }
+
+      .field__cell-8 {
+        background-color: #ffd0cc;
+      }
+
+      .field__cell-16 {
+        background-color: #00b7cc;
+      }
+
+      .field__cell-32 {
+        background-color: #005f81;
+      }
+
+      .field__cell-64 {
+        background-color: #0f2147;
+      }
+
+      .field__cell-128 {
+        background-color: #de9c2b;
+      }
+
+      .field__cell-256 {
+        background-color: #3a4e7a;
+      }
+
 
       .field__reset-button {
         border-radius: 10px;
